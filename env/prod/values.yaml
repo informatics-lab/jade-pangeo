@@ -19,18 +19,21 @@ pangeo:
       cookieSecret: OVERRIDEME
       extraConfig:
         customPodHook: |
-          # c.JupyterHub.logo_file = '/usr/local/share/jupyter/hub/static/custom/images/logo.png'
-          c.JupyterHub.template_paths = ['/usr/local/share/jupyter/hub/custom_templates/',
-                                        '/usr/local/share/jupyter/hub/templates/']
+          # c.JupyterHub.logo_file = '/usr/local/share/jupyterhub/static/custom/images/logo.png'
+          c.JupyterHub.template_paths = ['/usr/local/share/jupyterhub/custom_templates/',
+                                        '/usr/local/share/jupyterhub/templates/']
 
-          c.KubeSpawner.profile_list = [{
-            'display_name': 'Informatics Lab - Pangeo Notebook v0.4.0',
-            'kubespawner_override': {'singleuser_image_spec': 'informaticslab/pangeo-notebook:0.4.0',}
+          c.KubeSpawner.profile_list = [
+            {
+            'display_name': 'Informatics Lab - Pangeo Notebook v0.5.2 (recomended)',
+            'kubespawner_override': {'singleuser_image_spec': 'informaticslab/pangeo-notebook:0.5.2'}
             },{
-            'display_name': 'Informatics Lab - Pangeo Notebook v0.3.11',
-            'kubespawner_override': {'singleuser_image_spec': 'informaticslab/pangeo-notebook:0.3.11',}
+            'display_name': 'Informatics Lab - Pangeo Notebook dev (unstable)',
+            'kubespawner_override': {'singleuser_image_spec': 'informaticslab/pangeo-notebook:dev'}
+            },{
+            'display_name': 'Pangeo - Pangeo Notebook',
+            'kubespawner_override': {'singleuser_image_spec': 'pangeo/notebook:2018-06-13.4'}
             }]
-
           # Remove this when jupyterhub/zero-to-jupyterhub-k8s#882 makes it in
           c.KubeSpawner.extra_annotations = {
             'iam.amazonaws.com/role': 'arn:aws:iam::536099501702:role/pangeo'
@@ -41,10 +44,10 @@ pangeo:
             repository: "https://github.com/met-office-lab/jade-custom-jupyterhub-templates.git"
             revision: "57685a67bd59af87dc9f2cfc792c923f2a8d178d"
       extraVolumeMounts:
-        - mountPath: /usr/local/share/jupyter/hub/custom_templates
+        - mountPath: /usr/local/share/jupyterhub/custom_templates
           name: custom-templates
           subPath: "jade-custom-jupyterhub-templates/templates"
-        - mountPath: /usr/local/share/jupyter/hub/static/custom
+        - mountPath: /usr/local/share/jupyterhub/static/custom
           name: custom-templates
           subPath: "jade-custom-jupyterhub-templates/assets"
     proxy:
