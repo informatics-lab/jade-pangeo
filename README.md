@@ -13,7 +13,8 @@ You'll also need to symlink the config from our [private-config](https://github.
 _If you're not a member of the Informatics Lab and are looking to set this up yourself then check out the `values.yaml` file and the config for the other dependencies._
 
 ```shell
-ln -s /path/to/private-config/jade-pangeo/env/(prod|dev)/secrets.yaml env/(prod|dev)/secrets.yaml
+ln -s /path/to/private-config/jade-pangeo/env/prod/secrets.yaml env/prod/secrets.yaml
+ln -s /path/to/private-config/jade-pangeo/env/dev/secrets.yaml env/dev/secrets.yaml
 ```
 
 Now you can go ahead and run helm.
@@ -68,7 +69,7 @@ This can also happen when AWS occasionally has problems mounting the EBS volume.
 
 This will resolve itself with time, but due to backoff timouts this can be a while. To speed things along you can manually scale the hub down to one pod, then wait for all to temrinate, then scale back up.
 
-```
+```shell
 # Scale down
 kubectl -n jupyter scale deployment hub --replicas=0
 
@@ -87,7 +88,7 @@ If a user logs out with a full home directory they may not be able to log back i
 
 If the user has an active kernel either in a notebook or shell they can try to clear out the files them selves. However the easiest way is for an admin with kubectl access to exec a bash session inside the user's pod and clean out the files.
 
-```
+```shell
 kubectl -n jupyter exec -it jupyter-jacobtomlinson bash
 ```
 
@@ -97,3 +98,33 @@ kubectl -n jupyter exec -it jupyter-jacobtomlinson bash
 When a kernel exceeds the memory limits specified in the `values.yaml` file it will be sent a `SIGKILL` by the Kubernetes kubelet. This causes the kernel to silently exit. When viewing this in the notebook the activity light will switch to 'restarting' then 'idle' but the cell will still appear to be executing and there will be no stderr output.
 
 This is expected functionality but frustrating for users.
+
+
+## Auto deployment
+
+The auto deployment requires these environment variables to be set.
+
+```shell
+SECRETS_REPO
+RELEASE_NAME
+CERTIFICATE_AUTHORITY_DATA
+CLUSTER_URL
+CLIENT_CERTIFICATE_DATA
+CLIENT_KEY_DATA
+PASSWORD
+USERNAME
+SSH_KEY
+```
+
+`SSH_KEY` is the private key to match the deploy key for the repo. Should be in base64 format.
+
+You can create one like so.
+```shell
+ssh-keygen -f ./key
+KEY=$(cat key |base64)
+```
+
+`$KEY` is the env var `key.pub` is the public deploy key for github.
+
+
+If you are already set up with `kubectl` most of these can be found in your `~/.kube/conf`. Refer to `k8-config.yaml` and `scripts/deploy-dev` if you are unsure of what goes where.
