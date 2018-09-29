@@ -9,14 +9,15 @@ install:
 
 script:
   - echo "No tests!"
+  
 deploy:
   - provider: script
     skip_cleanup: true
     script: bash $TRAVIS_BUILD_DIR/scripts/deploy-dev.sh
     env:
       - RELEASE_NAME=pangeo-dev.informaticslab.co.uk
-    # on:
-    #   branch: master
+    on:
+      branch: master
   # - provider: script
   #   skip_cleanup: true
   #   script: bash $TRAVIS_BUILD_DIR/deploy.sh
