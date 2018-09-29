@@ -53,6 +53,6 @@ EOF
 # helm client version may differ from server version. Find out the server version and install that if different.
 echo "*** Downgrade helm if client version doesn't match server ***"
 HVERSION=$(helm version -s --short | cut -d ' '  -f 2 | cut -d '+' -f 1)
-./helm-install.sh --version $HVERSION
+sudo ./helm-install.sh --version $HVERSION
 
-
+echo "*** Set up complete ***"
