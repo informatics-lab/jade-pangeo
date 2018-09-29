@@ -32,7 +32,7 @@ chmod 400  ~/.ssh/id_rsa
 cd $REPO_DIR/..
 git clone $SECRETS_REPO secrets
 cd $REPO_DIR
-ln -s ../secrets/jade-pangeo/env/dev/secrets.yaml ./env/dev/secrets.yaml
+ln -s $(cd ..; pwd)/secrets/jade-pangeo/dev/secrets.yaml ./env/dev/secrets.yaml
 
 
 # Setup kubectl config from template

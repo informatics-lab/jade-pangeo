@@ -13,8 +13,8 @@ You'll also need to symlink the config from our [private-config](https://github.
 _If you're not a member of the Informatics Lab and are looking to set this up yourself then check out the `values.yaml` file and the config for the other dependencies._
 
 ```shell
-ln -s /path/to/private-config/jade-pangeo/env/prod/secrets.yaml env/prod/secrets.yaml
-ln -s /path/to/private-config/jade-pangeo/env/dev/secrets.yaml env/dev/secrets.yaml
+ln -s /path/to/private-config/jade-pangeo/prod/secrets.yaml env/prod/secrets.yaml
+ln -s /path/to/private-config/jade-pangeo/dev/secrets.yaml env/dev/secrets.yaml
 ```
 
 Now you can go ahead and run helm.
