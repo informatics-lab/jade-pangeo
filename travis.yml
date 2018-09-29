@@ -4,20 +4,14 @@ language: python
 python:
   - '3.6'
 
-services:
-  - docker
-
-script:
-  - docker build -t informaticslab/pangeo-notebook:${TRAVIS_COMMIT:0:8} .
-
 deploy:
   - provider: script
     skip_cleanup: true
-    script: bash $TRAVIS_BUILD_DIR/deploy.sh
+    script: bash $TRAVIS_BUILD_DIR/scripts/deploy-dev.sh
     on:
       branch: master
-  - provider: script
-    skip_cleanup: true
-    script: bash $TRAVIS_BUILD_DIR/deploy.sh
-    on:
-      tags: true
+  # - provider: script
+  #   skip_cleanup: true
+  #   script: bash $TRAVIS_BUILD_DIR/deploy.sh
+  #   on:
+  #     tags: true

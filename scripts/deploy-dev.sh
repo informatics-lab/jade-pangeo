@@ -6,9 +6,13 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 REPO_DIR=$SCRIPT_DIR/..
 
 # Install tools
+echo "*** Install helm ***"
 apt-get install git -y
-curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get | bash
+curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get > ./helm-install.sh
+chmod +x ./helm-install.sh
+./helm-install.sh
 
+echo "*** Install kubectl ***"
 apt-get update && apt-get install -y apt-transport-https
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
 touch /etc/apt/sources.list.d/kubernetes.list 
@@ -18,6 +22,7 @@ apt-get install -y kubectl
 
 
 # Set up ssh
+echo "*** Install ssh keys ***"
 mkdir -p ~/.ssh
 cat << EOF > ~/.ssh/config
 Host *
@@ -29,6 +34,7 @@ echo $SSH_KEY | base64 -d > ~/.ssh/id_rsa
 chmod 400  ~/.ssh/id_rsa
 
 # Link secrets
+echo "*** Link in secrets ***"
 cd $REPO_DIR/..
 git clone $SECRETS_REPO secrets
 cd $REPO_DIR
@@ -36,14 +42,21 @@ ln -s $(cd ..; pwd)/secrets/jade-pangeo/dev/secrets.yaml ./env/dev/secrets.yaml
 
 
 # Setup kubectl config from template
+echo "*** Set up kube config ***"
 mkdir -p ~/.kube/
-while read line
-do
-    eval echo "$line"
-done < "./template.txt" > ~/.kube/config
+python <<EOF >~/.kube/config
+import os
+with open('./k8-config.yaml') as fp:
+    print (os.path.expandvars(fp.read()))
+EOF
+
+# helm client version may differ from server version. Find out the server version and install that if different.
+echo "*** Downgrade helm if client version doesn't match server ***"
+HVERSION=$(helm version -s --short | cut -d ' '  -f 2 | cut -d '+' -f 1)
+./helm-install.sh --version $HVERSION
 
 
-
+echo "*** Deploy ***"
 # init helm
 helm init
 
@@ -59,7 +72,4 @@ helm dependency update jadepangeo
 helm upgrade $RELEASE_NAME jadepangeo -f env/dev/values.yaml -f env/dev/secrets.yaml
 
 
-
-
-
-
+echo "*** Deployed successfully ***"

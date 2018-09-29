@@ -105,15 +105,15 @@ This is expected functionality but frustrating for users.
 The auto deployment requires these environment variables to be set.
 
 ```shell
-SECRETS_REPO
-RELEASE_NAME
-CERTIFICATE_AUTHORITY_DATA
+SECRETS_REPO # Git url of the private config repo.
+RELEASE_NAME # Helm chart release name
+SSH_KEY # Base 64 encode version of the private side of the github deploy key
+CERTIFICATE_AUTHORITY_DATA 
 CLUSTER_URL
 CLIENT_CERTIFICATE_DATA
 CLIENT_KEY_DATA
 PASSWORD
 USERNAME
-SSH_KEY
 ```
 
 `SSH_KEY` is the private key to match the deploy key for the repo. Should be in base64 format.
@@ -121,10 +121,10 @@ SSH_KEY
 You can create one like so.
 ```shell
 ssh-keygen -f ./key
-KEY=$(cat key |base64)
+SSH_KEY=$(cat key |base64)
 ```
 
-`$KEY` is the env var `key.pub` is the public deploy key for github.
+`$SSH_KEY` is the env var `key.pub` is the public deploy key for github.
 
 
-If you are already set up with `kubectl` most of these can be found in your `~/.kube/conf`. Refer to `k8-config.yaml` and `scripts/deploy-dev` if you are unsure of what goes where.
+If you are already set up with `kubectl` most of the rest of the vars can be found in your `~/.kube/conf`, `k8-config.yaml` is a tempted version of this file.
