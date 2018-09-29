@@ -5,7 +5,7 @@ python:
   - '3.6'
 
 install:
-  - sudo $TRAVIS_BUILD_DIR/scripts/setup.sh
+  - $TRAVIS_BUILD_DIR/scripts/setup.sh
 
 deploy:
   - provider: script

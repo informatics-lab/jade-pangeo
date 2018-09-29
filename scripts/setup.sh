@@ -7,18 +7,18 @@ REPO_DIR=$SCRIPT_DIR/..
 
 # Install tools
 echo "*** Install helm ***"
-apt-get install git -y
+sudo apt-get install git -y
 curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get > ./helm-install.sh
 chmod +x ./helm-install.sh
-./helm-install.sh
+sudo ./helm-install.sh
 
 echo "*** Install kubectl ***"
-apt-get update && apt-get install -y apt-transport-https
-curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+sudo apt-get update && sudo apt-get install -y apt-transport-https
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
 touch /etc/apt/sources.list.d/kubernetes.list 
-echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" | tee -a /etc/apt/sources.list.d/kubernetes.list
-apt-get update
-apt-get install -y kubectl
+echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
+sudo apt-get update
+sudo apt-get install -y kubectl
 
 
 # Set up ssh
