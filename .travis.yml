@@ -13,13 +13,12 @@ script:
 deploy:
   - provider: script
     skip_cleanup: true
-    script: bash $TRAVIS_BUILD_DIR/scripts/deploy-dev.sh
-    env:
-      - RELEASE_NAME=pangeo-dev.informaticslab.co.uk
+    script: bash $TRAVIS_BUILD_DIR/scripts/deploy.sh dev pangeo-dev.informaticslab.co.uk
     on:
       branch: master
-  # - provider: script
-  #   skip_cleanup: true
-  #   script: bash $TRAVIS_BUILD_DIR/deploy.sh
-  #   on:
-  #     tags: true
+
+  - provider: script
+    skip_cleanup: true
+    script: bash $TRAVIS_BUILD_DIR/scripts/deploy.sh prod jupyterhub.informaticslab.co.uk
+    on:
+      tags: true

@@ -106,7 +106,6 @@ The auto deployment requires these environment variables to be set.
 
 ```shell
 SECRETS_REPO # Git url of the private config repo.
-RELEASE_NAME # Helm chart release name
 SSH_KEY # Base 64 encode version of the private side of the github deploy key
 CERTIFICATE_AUTHORITY_DATA 
 CLUSTER_URL
