@@ -1,8 +1,10 @@
 #!/bin/bash
 set -e
 echo "*** Deploy ***"
-ENV=$1
-RELEASE_NAME=$2
+
+ENV=$1 # environment `dev` or `prod`
+RELEASE_NAME=$2 # helm chart release name.
+
 echo ENV=$1 RELEASE_NAME=$2
 
 # init helm
