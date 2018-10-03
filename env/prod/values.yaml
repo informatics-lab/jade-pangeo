@@ -18,5 +18,3 @@ pangeo:
     auth:
       github:
         callbackUrl: "https://pangeo.informaticslab.co.uk/hub/oauth_callback"
-
-  
