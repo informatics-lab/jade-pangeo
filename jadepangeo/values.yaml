@@ -62,8 +62,8 @@ pangeo:
                 },
             },
             {
-              'display_name': 'Informatics Lab - Pangeo Notebook v0.5.24',
-              'kubespawner_override': {'singleuser_image_spec': '536099501702.dkr.ecr.eu-west-2.amazonaws.com/pangeo-notebook:0.5.24'}
+              'display_name': 'Informatics Lab - Pangeo Notebook v0.5.25',
+              'kubespawner_override': {'singleuser_image_spec': '536099501702.dkr.ecr.eu-west-2.amazonaws.com/pangeo-notebook:0.5.25'}
             },
             {
               'display_name': 'Informatics Lab - Pangeo Notebook v0.5.4',
